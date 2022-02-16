@@ -46,22 +46,30 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         draw(g);
     }
-    public void draw(Graphics g){
-        for (int i = 0; i < SCREEN_HIGHT/UNIT_SIZE; i++){
-            g.drawLine(i*UNIT_SIZE,0,i*UNIT_SIZE,SCREEN_HIGHT);
-            g.drawLine(0,i*UNIT_SIZE,SCREEN_WIDTH,i*UNIT_SIZE);
-        }
-        g.setColor(Color.RED);
-        g.fillOval(appleX,appleY,UNIT_SIZE,UNIT_SIZE);
-
-        for (int i = 0; i<bodyParts;i++){
-            if(i == 0){
-                g.setColor(Color.GREEN);
-                g.fillRect(x[i],y[i], UNIT_SIZE,UNIT_SIZE);
-            } else{
-                g.setColor(new Color(45,180,0));
-                g.fillRect(x[i],y[i], UNIT_SIZE,UNIT_SIZE);
+    public void draw(Graphics g) {
+        if (running) {
+            for (int i = 0; i < SCREEN_HIGHT / UNIT_SIZE; i++) {
+                g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HIGHT);
+                g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
             }
+            g.setColor(Color.RED);
+            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+
+            for (int i = 0; i < bodyParts; i++) {
+                if (i == 0) {
+                    g.setColor(Color.GREEN);
+                    g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+                } else {
+                    g.setColor(new Color(45, 180, 0));
+                    g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+                }
+            }
+            g.setColor(Color.RED);
+            g.setFont(new Font("Ink Free", Font.BOLD, 40));
+            FontMetrics metrics = getFontMetrics(g.getFont());
+            g.drawString("Score: " + applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
+        } else{
+            gameOver(g);
         }
     }
     public void newApple(){
@@ -89,7 +97,11 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
     public void checkApple(){
-
+        if ((x[0] == appleX) && (y[0]== appleY)){
+            bodyParts++;
+            applesEaten++;
+            newApple();
+        }
     }
     public void checkCollisions(){
         //checks if head collides with body
@@ -114,16 +126,25 @@ public class GamePanel extends JPanel implements ActionListener {
         if(y[0] > SCREEN_HIGHT){
             running = false;
         }
-        if (running = false){
+        if (!running){
             timer.stop();
         }
     }
     public void gameOver(Graphics g){
-
+        //Display the Score on the Game Over Screen
+        g.setColor(Color.RED);
+        g.setFont(new Font("Ink Free", Font.BOLD, 40));
+        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        g.drawString("Score: " + applesEaten, (SCREEN_WIDTH - metrics1.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
+        //Game Over Text
+        g.setColor(Color.RED);
+        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("Game Over", (SCREEN_WIDTH - metrics2.stringWidth("Game Over"))/2, SCREEN_HIGHT/2);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (running = true){
+        if (running){
             move();
             checkApple();
             checkCollisions();
@@ -133,7 +154,28 @@ public class GamePanel extends JPanel implements ActionListener {
     public class MyKeyAdapter extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e){
-
+            switch (e.getKeyCode()){
+                case KeyEvent.VK_LEFT:
+                    if (direction != 'R'){
+                        direction = 'L';
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (direction != 'L'){
+                        direction = 'R';
+                    }
+                    break;
+                case KeyEvent.VK_UP:
+                    if (direction != 'D'){
+                        direction = 'U';
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (direction != 'U'){
+                        direction = 'D';
+                    }
+                    break;
+            }
         }
     }
 }
