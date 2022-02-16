@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-
 /**
  * @author Moustafa Sven Hawi
  * @date 15.02
