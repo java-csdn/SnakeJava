@@ -4,7 +4,6 @@ import java.awt.*;
  * @author Moustafa Sven Hawi
  * @date 15.02
  * @version 1.0
- * Dieser Code ist von einem YouTube Video, der Ersteller des Videos ist Bro Code.
  */
 public class GameFrame extends JFrame {
     //Konstruktor

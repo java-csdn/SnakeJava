@@ -9,7 +9,6 @@ import java.util.Random;
  * @author Moustafa Sven Hawi
  * @date 15.02.2022
  * @version 1.0
- * Dieser Code ist von einem YouTube Video, der Ersteller des Videos ist Bro Code.
  */
 public class GamePanel extends JPanel implements ActionListener {
     static final int SCREEN_WIDTH = 600;
